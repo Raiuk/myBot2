@@ -30,14 +30,14 @@ public class Cafe implements Runnable {
 
         order1.client = client1;
         order1.order = "fsdf";
-        order1.testTime = 15;
+        order1.testTime = 5;
 
         client2.setName("Ivan");
         client2.setPhoneNumber("12314123");
 
         order2.client = client2;
         order2.order = "fasdagsfa";
-        order2.testTime = 25;
+        order2.testTime = 10;
 
         t1.ordersQueue = new LinkedList<Order>();
 

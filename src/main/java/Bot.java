@@ -36,9 +36,14 @@ public class Bot extends TelegramLongPollingBot {
             }
             else if(message.getText().equals("/queue")) {
                 try {
-                    c.wait();
+                    //c.sleep(10);
                     sendMsg(message, cafe.tableList.get(0).ordersQueue.get(0).toString());
-                    c.notifyAll();
+                    Order o = new Order();
+                    Client cl = new Client();
+                    o.testTime = 6;
+                    o.client = cl;
+                    cafe.tableList.get(0).ordersQueue.add(o);
+                    //c.notifyAll();
                 }
                 catch (Exception e) {
                     e.printStackTrace();
