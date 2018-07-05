@@ -7,8 +7,16 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 public class Bot extends TelegramLongPollingBot {
+    Cafe cafe = new Cafe("cafe");
+    Thread c = new Thread(cafe);
+
+    Bot() {
+
+    }
 
     public static void main(String[] args) {
+
+
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
 
@@ -26,6 +34,16 @@ public class Bot extends TelegramLongPollingBot {
             if(message.getText().equals("/help")) {
                 sendMsg(message, "Hi, i'm test bot!");
             }
+            else if(message.getText().equals("/queue")) {
+                try {
+                    c.wait();
+                    sendMsg(message, cafe.tableList.get(0).ordersQueue.get(0).toString());
+                    c.notifyAll();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             else
                 sendMsg(message, "I'm test robot");
         }
@@ -33,7 +51,7 @@ public class Bot extends TelegramLongPollingBot {
 
     private  void sendMsg(Message message, String s) {
         SendMessage sendMessage = new SendMessage();
-        sendMessage.enableMarkdown(true);
+        //sendMessage.enableMarkdown(true);
         sendMessage.setChatId(message.getChatId().toString());
         //sendMessage.setReplyToMessageId(message.getMessageId());
         sendMessage.setText(s);
