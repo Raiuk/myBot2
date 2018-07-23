@@ -56,14 +56,20 @@ public class Cafe implements Runnable {
 
     public void run() {
         int i = 0;
-        while (t1.ordersQueue.size() > 0) {
-            if(t1.ordersQueue.get(0).testTime == 0) {
-                System.out.println(t1.ordersQueue.get(0).toString() + " was deleted. Tick - " + i);
-                System.out.println("----------------------------------");
-                t1.ordersQueue.remove(0);
+        while (true) {
+            if(!t1.ordersQueue.isEmpty() && t1.ordersQueue.get(0) != null) {
+                if (t1.ordersQueue.get(0).testTime == 0) {
+                    System.out.println("Task: " + t1.ordersQueue.get(0).toString() + " was deleted. Tick - " + i);
+                    System.out.println("----------------------------------");
+                    t1.ordersQueue.remove(0);
+                    if(!t1.ordersQueue.isEmpty() && t1.ordersQueue.get(0) != null)
+                        System.out.println("Task: " + t1.ordersQueue.get(0).toString() + " is started. Tick - " + i);
+                } else {
+                    System.out.println("Tick - " + i + ". Task: " + t1.ordersQueue.get(0).toString());
+                    --t1.ordersQueue.get(0).testTime;
+                }
             }
-            else --t1.ordersQueue.get(0).testTime;
-            System.out.println("Tick - " + i);
+            else System.out.println("Tick - " + i);
             try {
                 sleep(1000);
 
@@ -72,7 +78,22 @@ public class Cafe implements Runnable {
             }
             ++i;
         }
-        System.out.println("-----------------------------------");
+        //System.out.println("-----------------------------------");
+    }
+
+    public String getCurrentTask() {
+        if(!t1.ordersQueue.isEmpty() && t1.ordersQueue.get(0) != null) {
+            return "Task: " + t1.ordersQueue.get(0).toString() + " is running.";
+        }
+        else return "The resource is free.";
+    }
+
+    public int placeInQueue(String s) {
+        return t1.placeInQueue(s);
+    }
+
+    public boolean removeOrder(int i) {
+        return t1.removeOrder(i);
     }
 
 
